@@ -58,11 +58,3 @@ func NString(n *Node) (string) {
 func (t *Tree) String() (string) {
 	return fmt.Sprintf("ID: %s, Structure: %s", t.ID, NString(&t.Root));
 }
-
-func InitTree() (*Tree) {
-	fmt.Println("You are creating a CRDTree")
-	sv := StringValue{"string value"}
-	node := Node{"node1", nil, []*Node{}, &sv}
-	tree := Tree{"abc", node}
-	return &tree
-}
