@@ -2,17 +2,26 @@ package crdt
 
 import (
 	"fmt"
+	"math"
+	"testing"
+	"github.com/stretchr/testify/assert"
 )
 
-func ExampleTree() {
-	fmt.Println("You are creating a CRDTree")
-	sv := StringValue{Val: "string value"}
-	node := Node{ID: "root", Parent: nil, Children: []*Node{}, Val: &sv}
-	child := Node{ID: "child1", Parent: &node, Children: []*Node{}, Val: &sv}
-	node.Children = append(node.Children, &child);
-	tree := Tree{ID: "abc", Root: node}
-	fmt.Println(tree.String())
-	// Output:
-	// You are creating a CRDTree
-	// ID: abc, Structure: Node[ID: root, Value: Value: string value, Parent: none, Children: [Node[ID: child1, Value: Value: string value, Parent: root, Children: []]]]
+func TestCounter(t *testing.T) {
+	fmt.Println("Testing Counter")
+	c1 := NewCounter()
+	c1.Add("abc", 123)
+	c1.Sub("abc", 120)
+	c1.Add("bcd", 2)
+	c1.Inc("bcd")
+	c1.Dec("gdf")
+	assert.Equal(t, int64(5), c1.Eval())
+	assert.NotNil(t, c1.Add("abc", math.MaxInt64-122))
+	assert.Equal(t, int64(5), c1.Eval())
+	assert.NotNil(t, c1.Add("ddd", math.MaxInt64-2))
+	assert.Equal(t, int64(5), c1.Eval())
+	assert.NotNil(t, c1.Sub("abc", math.MaxInt64))
+	assert.Equal(t, int64(5), c1.Eval())
+	assert.Nil(t, c1.Add("ddd", math.MaxInt64-100))
+	assert.Equal(t, int64(math.MaxInt64-95), c1.Eval())
 }
