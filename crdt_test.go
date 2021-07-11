@@ -2,9 +2,9 @@ package crdt
 
 import (
 	"fmt"
+	"github.com/stretchr/testify/assert"
 	"math"
 	"testing"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestCounter(t *testing.T) {
